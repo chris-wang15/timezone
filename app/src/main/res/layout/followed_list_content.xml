@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/cur_tz"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="GMT+9" />
+
+    <TextView
+        android:id="@+id/des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:text="@string/current_time"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintBottom_toBottomOf="@+id/cur_tz"
+        app:layout_constraintLeft_toRightOf="@+id/cur_tz"
+        app:layout_constraintTop_toTopOf="@+id/cur_tz" />
+
+    <TextClock
+        android:id="@+id/time_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:format12Hour="hh:mm"
+        android:format24Hour="HH:mm"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="56sp"
+        app:layout_constraintBottom_toTopOf="@+id/data_detail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cur_tz"
+        tools:text="12:22" />
+
+    <TextClock
+        android:id="@+id/data_detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:format12Hour="yyyy.MM.dd\nEE     a"
+        android:format24Hour="yyyy.MM.dd\nEE     a"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="21sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="12月12号星期一" />
+</androidx.constraintlayout.widget.ConstraintLayout>

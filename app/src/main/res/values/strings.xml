@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">TimeZone</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="current_time">current time: </string>
+    <string name="followed_no_result">No followed time zone found</string>
+    <string name="add_followed">Add to followed</string>
 </resources>
