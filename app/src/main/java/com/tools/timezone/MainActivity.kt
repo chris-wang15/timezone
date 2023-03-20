@@ -7,16 +7,16 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.tools.timezone.databinding.ActivityItemDetailBinding
+import com.tools.timezone.databinding.ActivityLayoutBinding
 
-class ItemDetailHostActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityItemDetailBinding.inflate(layoutInflater)
+        val binding = ActivityLayoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         val navHostFragment =

@@ -12,7 +12,7 @@
         android:theme="@style/Theme.TimeZone"
         tools:targetApi="31">
         <activity
-            android:name=".ItemDetailHostActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:resizeableActivity="true"
