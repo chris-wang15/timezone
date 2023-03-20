@@ -3,25 +3,20 @@ package com.tools.timezone.repository
 import android.util.Log
 import com.tools.timezone.db.CacheMapper
 import com.tools.timezone.db.RoomModule
-import com.tools.timezone.db.TimeZoneCacheEntity
 import com.tools.timezone.db.TimeZoneDao
+import com.tools.timezone.model.TimeZoneData
 import com.tools.timezone.net.RetrofitBuilder
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class MainRepository
-constructor(
-
-    private val cacheMapper: CacheMapper
-) {
-    companion object {
-        private const val TAG = "MainRepository"
-    }
+object MainRepository {
+    private const val TAG = "MainRepository"
 
     private val dao: TimeZoneDao = RoomModule.dao
+    private val cacheMapper: CacheMapper = CacheMapper()
 
-    fun resetTimeZoneData(): Single<List<TimeZoneCacheEntity>> {
+    fun resetTimeZoneData(): Single<List<TimeZoneData>> {
         return RetrofitBuilder.getFakeDataList().map {
             val netData = it.list
             for (data in netData) {
@@ -30,16 +25,34 @@ constructor(
         }
             .singleOrError()
             .flatMap {
-                return@flatMap dao.get()
+                return@flatMap dao.get().map {
+                    val list: MutableList<TimeZoneData> = ArrayList()
+                    for (data in it) {
+                        list.add(cacheMapper.mapFromEntity(data))
+                    }
+                    return@map list
+                }
             }
     }
 
-    fun getCachedTimeZoneData(): Single<List<TimeZoneCacheEntity>> {
-        return dao.get()
+    fun getCachedTimeZoneData(): Single<List<TimeZoneData>> {
+        return dao.get().map {
+            val list: MutableList<TimeZoneData> = ArrayList()
+            for (data in it) {
+                list.add(cacheMapper.mapFromEntity(data))
+            }
+            return@map list
+        }
     }
 
-    fun getFollowedCars(): Single<List<TimeZoneCacheEntity>> {
-        return dao.getFollowed()
+    fun getFollowedZones(): Single<List<TimeZoneData>> {
+        return dao.getFollowed().map {
+            val list: MutableList<TimeZoneData> = ArrayList()
+            for (data in it) {
+                list.add(cacheMapper.mapFromEntity(data))
+            }
+            return@map list
+        }
     }
 
 

@@ -17,4 +17,14 @@
         app:layoutManager="LinearLayoutManager"
         tools:context="com.tools.timezone.MainActivity"
         tools:listitem="@layout/item_list_content" />
+
+    <Button
+        android:id="@+id/reset_button"
+        android:layout_width="wrap_content"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_data"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

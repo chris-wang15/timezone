@@ -29,10 +29,10 @@
         tools:text="温哥华" />
 
     <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/follow_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginEnd="@dimen/fab_margin"
         android:layout_weight="1"
         android:checked="false"
         android:gravity="center"
