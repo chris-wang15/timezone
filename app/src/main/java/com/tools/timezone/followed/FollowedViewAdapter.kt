@@ -1,6 +1,7 @@
 package com.tools.timezone.followed
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextClock
@@ -13,6 +14,10 @@ import java.util.*
 class FollowedViewAdapter(
     private val values: ArrayList<TimeZoneData>
 ) : RecyclerView.Adapter<FollowedViewAdapter.ViewHolder>() {
+
+    companion object {
+        private const val TAG = "FollowedViewAdapter"
+    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(list: List<TimeZoneData>) {
@@ -39,8 +44,10 @@ class FollowedViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.tzView.text = item.name
-        holder.timeDetail.timeZone = SimpleTimeZone(item.zone, "GMT").displayName
-        holder.dataDetail.timeZone = SimpleTimeZone(item.zone, "GMT").displayName
+        val offsetMs = item.zone * 60 * 60 * 1000
+        Log.i(TAG, "${item.name} zone: ${offsetMs} at $position")
+        holder.timeDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
+        holder.dataDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
     }
 
     override fun getItemCount() = values.size
