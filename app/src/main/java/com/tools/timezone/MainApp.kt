@@ -1,7 +1,7 @@
 package com.tools.timezone
 
 import android.app.Application
-import com.tools.timezone.db.RoomModule
+import com.tools.timezone.repository.db.RoomModule
 
 class MainApp: Application() {
     override fun onCreate() {

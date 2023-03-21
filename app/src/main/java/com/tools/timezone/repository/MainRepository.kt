@@ -1,11 +1,11 @@
 package com.tools.timezone.repository
 
 import android.util.Log
-import com.tools.timezone.db.CacheMapper
-import com.tools.timezone.db.RoomModule
-import com.tools.timezone.db.TimeZoneDao
+import com.tools.timezone.repository.db.CacheMapper
+import com.tools.timezone.repository.db.RoomModule
+import com.tools.timezone.repository.db.TimeZoneDao
 import com.tools.timezone.model.TimeZoneData
-import com.tools.timezone.net.RetrofitBuilder
+import com.tools.timezone.repository.net.RetrofitBuilder
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
