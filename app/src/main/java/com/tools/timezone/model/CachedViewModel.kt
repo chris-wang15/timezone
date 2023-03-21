@@ -1,10 +1,9 @@
-package com.tools.timezone
+package com.tools.timezone.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tools.timezone.model.TimeZoneData
 import com.tools.timezone.repository.MainRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

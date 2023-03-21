@@ -1,4 +1,4 @@
-package com.tools.timezone.followed
+package com.tools.timezone.fragment.followed
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -62,7 +62,7 @@ class FollowedListFragment : Fragment() {
     private fun jumpToListFragment(view: View?) {
         view ?: return
         val bundle = Bundle()
-//        bundle.putString(
+//        bundle.putString( TODO 添加当前时区
 //            ItemDetailFragment.ARG_ITEM_ID,
 //            item.id
 //        )

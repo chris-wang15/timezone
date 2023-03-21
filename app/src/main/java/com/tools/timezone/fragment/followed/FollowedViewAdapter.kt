@@ -1,4 +1,4 @@
-package com.tools.timezone.followed
+package com.tools.timezone.fragment.followed
 
 import android.annotation.SuppressLint
 import android.util.Log

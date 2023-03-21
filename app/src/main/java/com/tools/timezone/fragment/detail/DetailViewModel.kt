@@ -1,4 +1,4 @@
-package com.tools.timezone.detail
+package com.tools.timezone.fragment.detail
 
 import android.util.Log
 import androidx.lifecycle.LiveData
