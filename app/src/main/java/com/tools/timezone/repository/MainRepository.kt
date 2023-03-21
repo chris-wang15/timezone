@@ -24,7 +24,7 @@ object MainRepository {
                 dao.insert(cacheMapper.mapToEntity(data))
             }
         }
-            .flatMap {
+            .flatMap { // flatmap may not maintains the order
                 dao.get().toObservable().map {
                     val list: MutableList<TimeZoneData> = ArrayList()
                     for (data in it) {
@@ -62,5 +62,11 @@ object MainRepository {
             { updateResult -> Log.i(TAG, "changeFollowedState success $updateResult") },
             { e -> Log.e(TAG, "changeFollowedState error: ", e) }
         )
+    }
+
+    fun getZoneById(id: Int): Single<TimeZoneData> {
+        return dao.getZoneById(id).map {
+            cacheMapper.mapFromEntity(it)
+        }
     }
 }

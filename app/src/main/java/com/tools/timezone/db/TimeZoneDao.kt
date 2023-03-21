@@ -20,4 +20,7 @@ interface TimeZoneDao {
     // state = 1 true; 0 false
     @Query("UPDATE time_zone_table set followed = :state where id = :id")
     fun changeFollowedState(id: Int, state: Int): Single<Int>
+
+    @Query("SELECT * FROM time_zone_table where id = :id")
+    fun getZoneById(id: Int): Single<TimeZoneCacheEntity>
 }

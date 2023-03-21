@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/item_detail_fragment"
-        android:name="com.tools.timezone.ItemDetailFragment"
+        android:name="com.tools.timezone.detail.ItemDetailFragment"
         android:label="item_detail"
         tools:layout="@layout/fragment_item_detail">
         <argument

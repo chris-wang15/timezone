@@ -45,7 +45,7 @@ class FollowedViewAdapter(
         val item = values[position]
         holder.tzView.text = item.name
         val offsetMs = item.zone * 60 * 60 * 1000
-        Log.i(TAG, "${item.name} zone: ${offsetMs} at $position")
+        Log.i(TAG, "${item.name} zone: $offsetMs at $position")
         holder.timeDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
         holder.dataDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
     }
