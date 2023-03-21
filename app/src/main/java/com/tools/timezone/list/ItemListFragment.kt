@@ -25,6 +25,7 @@ class ItemListFragment : Fragment() {
 
     private var binding: FragmentItemListBinding? = null
     private val cachedViewModel: CachedViewModel by activityViewModels()
+    private var retryIfCacheFailed = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,12 +48,14 @@ class ItemListFragment : Fragment() {
             ) { data ->
                 if (data.isNotEmpty()) {
                     adapter.updateData(data)
-                } else {
+                } else if (retryIfCacheFailed) {
                     Log.i(TAG, "no cached data found")
+                    retryIfCacheFailed = false
                     cachedViewModel.resetCache()
                 }
             }
 
+            retryIfCacheFailed = true
             cachedViewModel.getCachedLists()
 
             it.resetButton.setOnClickListener(object : DuplicateClickListener() {
@@ -82,7 +85,12 @@ class ItemListFragment : Fragment() {
                 val cityName = if (item.cities.isEmpty()) "UN KNOW" else item.cities[0]
                 it.famousCity.text = cityName
                 it.followSwitch.isChecked = item.followed
-                it.followSwitch.setOnCheckedChangeListener { _, isChecked ->
+                it.followSwitch.setOnCheckedChangeListener { switch, isChecked ->
+                    if (!switch.isPressed) {
+                        // prevent triggered setting isChecked when binding
+                        return@setOnCheckedChangeListener
+                    }
+                    Log.i(TAG, "setOnCheckedChangeListener")
                     cachedViewModel.updateFollowState(item.id, isChecked)
                     values[position].followed = isChecked
                     notifyItemChanged(position)

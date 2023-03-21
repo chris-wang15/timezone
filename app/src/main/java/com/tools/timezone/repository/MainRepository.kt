@@ -6,6 +6,7 @@ import com.tools.timezone.db.RoomModule
 import com.tools.timezone.db.TimeZoneDao
 import com.tools.timezone.model.TimeZoneData
 import com.tools.timezone.net.RetrofitBuilder
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -16,16 +17,15 @@ object MainRepository {
     private val dao: TimeZoneDao = RoomModule.dao
     private val cacheMapper: CacheMapper = CacheMapper()
 
-    fun resetTimeZoneData(): Single<List<TimeZoneData>> {
+    fun resetTimeZoneData(): Observable<List<TimeZoneData>> {
         return RetrofitBuilder.getFakeDataList().map {
             val netData = it.list
             for (data in netData) {
                 dao.insert(cacheMapper.mapToEntity(data))
             }
         }
-            .singleOrError()
             .flatMap {
-                return@flatMap dao.get().map {
+                dao.get().toObservable().map {
                     val list: MutableList<TimeZoneData> = ArrayList()
                     for (data in it) {
                         list.add(cacheMapper.mapFromEntity(data))

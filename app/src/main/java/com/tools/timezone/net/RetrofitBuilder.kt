@@ -2,12 +2,12 @@ package com.tools.timezone.net
 
 import com.google.gson.Gson
 import io.reactivex.Observable
-import kotlinx.coroutines.delay
 
 object RetrofitBuilder {
     fun getFakeDataList(): Observable<Response> {
         return Observable.create {
-            Gson().fromJson(FAKE_INFO, Response::class.java)
+            val data = Gson().fromJson(FAKE_INFO, Response::class.java)
+            it.onNext(data)
         }
     }
 

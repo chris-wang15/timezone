@@ -6,10 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tools.timezone.model.TimeZoneData
 import com.tools.timezone.repository.MainRepository
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class FollowedViewModel: ViewModel() {
+class FollowedViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "FollowedViewModel"
@@ -24,11 +25,18 @@ class FollowedViewModel: ViewModel() {
             Log.e(TAG, "last disposable not finished")
             disposable?.dispose()
         }
-        disposable = MainRepository.getFollowedZones().subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
+        disposable = MainRepository.getFollowedZones()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { followedData.value = it},
-                {e -> Log.e(TAG, "getLists error", e)}
+                {
+                    followedData.value = it
+                    disposable = null
+                },
+                { e ->
+                    Log.e(TAG, "getLists error", e)
+                    disposable = null
+                }
             )
     }
 
