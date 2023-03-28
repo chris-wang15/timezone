@@ -1,11 +1,12 @@
 package com.tools.timezone.repository
 
 import android.util.Log
+import com.tools.timezone.model.TimeZoneData
 import com.tools.timezone.repository.db.CacheMapper
 import com.tools.timezone.repository.db.RoomModule
+import com.tools.timezone.repository.db.TimeZoneCacheEntity
 import com.tools.timezone.repository.db.TimeZoneDao
-import com.tools.timezone.model.TimeZoneData
-import com.tools.timezone.repository.net.RetrofitBuilder
+import com.tools.timezone.repository.net.ORIGIN_LIST
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
@@ -18,19 +19,20 @@ object MainRepository {
     private val cacheMapper: CacheMapper = CacheMapper()
 
     fun resetTimeZoneData(): Observable<List<TimeZoneData>> {
-        return RetrofitBuilder.getFakeDataList().map {
-            val netData = it.list
-            for (data in netData) {
-                dao.insert(cacheMapper.mapToEntity(data))
+        return Observable.create {
+            it.onNext(ORIGIN_LIST)
+        }.map {
+            for (i in it.indices) {
+                dao.insert(TimeZoneCacheEntity(
+                    i,
+                    it[i],
+                    false
+                ))
             }
         }
-            .flatMap { // flatmap may not maintains the order
+            .flatMap {
                 dao.get().toObservable().map {
-                    val list: MutableList<TimeZoneData> = ArrayList()
-                    for (data in it) {
-                        list.add(cacheMapper.mapFromEntity(data))
-                    }
-                    return@map list
+                    cacheMapper.mapFromEntityList(it)
                 }
             }
     }

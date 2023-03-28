@@ -8,10 +8,6 @@ data class TimeZoneData(
     val id: Int = 0,
     @SerializedName("name")
     val name: String = "",
-    @SerializedName("zone")
-    val zone: Int = 0,
-    @SerializedName("cities")
-    val cities: List<String> = ArrayList(),
     @SerializedName("followed")
     var followed: Boolean = false
 ) : Serializable {

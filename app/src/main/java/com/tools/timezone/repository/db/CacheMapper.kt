@@ -7,8 +7,6 @@ class CacheMapper : EntityMapper<TimeZoneCacheEntity, TimeZoneData> {
         return TimeZoneData(
             id = it.id,
             name = it.name,
-            zone = it.zone,
-            cities = it.cities,
             followed = it.followed
         )
     }
@@ -17,8 +15,6 @@ class CacheMapper : EntityMapper<TimeZoneCacheEntity, TimeZoneData> {
         return TimeZoneCacheEntity(
             id = it.id,
             name = it.name,
-            zone = it.zone,
-            cities = it.cities,
             followed = it.followed
         )
     }

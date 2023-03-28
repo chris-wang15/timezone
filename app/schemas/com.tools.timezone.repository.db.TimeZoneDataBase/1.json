@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "50952577e47f4445dd57e85013088974",
+    "identityHash": "f90c547ffc849feb5558e026f254716f",
     "entities": [
       {
         "tableName": "time_zone_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `zone` INTEGER NOT NULL, `cities` TEXT NOT NULL, `followed` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `followed` INTEGER NOT NULL, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -17,18 +17,6 @@
           {
             "fieldPath": "name",
             "columnName": "name",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "zone",
-            "columnName": "zone",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "cities",
-            "columnName": "cities",
             "affinity": "TEXT",
             "notNull": true
           },
@@ -52,7 +40,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '50952577e47f4445dd57e85013088974')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'f90c547ffc849feb5558e026f254716f')"
     ]
   }
 }

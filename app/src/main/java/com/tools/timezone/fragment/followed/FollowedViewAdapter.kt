@@ -44,10 +44,13 @@ class FollowedViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.tzView.text = item.name
-        val offsetMs = item.zone * 60 * 60 * 1000
-        Log.i(TAG, "${item.name} zone: $offsetMs at $position")
-        holder.timeDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
-        holder.dataDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
+//        val offsetMs = item.zone * 60 * 60 * 1000
+//        Log.i(TAG, "${item.name} zone: $offsetMs at $position")
+//        holder.timeDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
+//        holder.dataDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
+        Log.i(TAG, "bind zone ${item.name}")
+        holder.timeDetail.timeZone = item.name
+        holder.dataDetail.timeZone = item.name
     }
 
     override fun getItemCount() = values.size

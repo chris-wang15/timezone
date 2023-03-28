@@ -14,10 +14,6 @@ data class TimeZoneCacheEntity(
     val id: Int = 0,
     @ColumnInfo("name")
     val name: String = "",
-    @ColumnInfo("zone")
-    val zone: Int = 0,
-    @ColumnInfo("cities")
-    val cities: List<String> = ArrayList(),
     @ColumnInfo("followed")
     var followed: Boolean = false
 ) : Serializable

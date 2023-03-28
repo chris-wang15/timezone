@@ -33,7 +33,7 @@ class ZonesListAdapter(
         val item = values[position]
         holder.let {
             it.nameView.text = item.name
-            val cityName = if (item.cities.isEmpty()) "UN KNOW" else item.cities[0]
+            val cityName = "UN KNOW"
             it.famousCity.text = cityName
             it.followSwitch.isChecked = item.followed
             it.followSwitch.setOnCheckedChangeListener { switch, isChecked ->

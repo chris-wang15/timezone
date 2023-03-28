@@ -55,10 +55,12 @@ class ItemDetailFragment : Fragment() {
         item ?: return
         binding?.apply {
             tzName.text = item.name
-            val offsetMs = item.zone * 60 * 60 * 1000
-            timeDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
-            dataDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
-            itemDetail.text = item.cities.toString()
+//            val offsetMs = item.zone * 60 * 60 * 1000
+//            timeDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
+//            dataDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
+//            itemDetail.text = item.cities.toString()
+            timeDetail.timeZone = item.name
+            dataDetail.timeZone = item.name
         }
     }
 
