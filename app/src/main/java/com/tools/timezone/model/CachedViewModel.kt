@@ -39,6 +39,16 @@ class CachedViewModel: ViewModel() {
             )
     }
 
+    fun searchTimeZone(name: String) {
+        disposable?.dispose()
+        disposable = MainRepository.searchCachedTimeZoneData(name).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { allZones.value = it},
+                {e -> Log.e(TAG, "getLists error", e)}
+            )
+    }
+
     fun updateFollowState(id: Int, follow: Boolean) {
         MainRepository.changeFollowedState(id, follow)
     }

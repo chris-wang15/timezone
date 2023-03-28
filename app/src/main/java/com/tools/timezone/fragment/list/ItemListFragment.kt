@@ -1,6 +1,8 @@
 package com.tools.timezone.fragment.list
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -52,9 +54,25 @@ class ItemListFragment : Fragment() {
             retryIfCacheFailed = true
             cachedViewModel.getCachedLists()
 
-            it.resetButton.setOnClickListener(object : DuplicateClickListener() {
+            var text: String? = null
+            it.itemSearch.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?, start: Int, count: Int, after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(editable: Editable?) {
+                    text = editable?.toString()
+                    it.searchButton.isEnabled = editable != null && editable.isNotEmpty()
+                }
+            })
+
+            it.searchButton.setOnClickListener(object : DuplicateClickListener() {
                 override fun onCLick(v: View?) {
-                    cachedViewModel.resetCache()
+                    cachedViewModel.searchTimeZone(text ?: "")
                 }
             })
         }

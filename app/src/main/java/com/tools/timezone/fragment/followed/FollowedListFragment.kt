@@ -62,7 +62,7 @@ class FollowedListFragment : Fragment() {
     private fun jumpToListFragment(view: View?) {
         view ?: return
         val bundle = Bundle()
-//        bundle.putString( TODO 添加当前时区
+//        bundle.putString(
 //            ItemDetailFragment.ARG_ITEM_ID,
 //            item.id
 //        )

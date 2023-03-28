@@ -12,21 +12,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="@dimen/text_margin"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textSize="16sp"
         tools:text="GMT+7" />
-
-    <TextView
-        android:id="@+id/most_famous_city"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="@dimen/text_margin"
-        android:layout_weight="1"
-        android:textAppearance="?attr/textAppearanceListItem"
-        android:textSize="16sp"
-        tools:text="温哥华" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/follow_switch"

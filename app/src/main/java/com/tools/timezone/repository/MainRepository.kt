@@ -47,6 +47,12 @@ object MainRepository {
         }
     }
 
+    fun searchCachedTimeZoneData(zoneName: String): Single<List<TimeZoneData>> {
+        return dao.searchName(zoneName).map {
+            cacheMapper.mapFromEntityList(it)
+        }
+    }
+
     fun getFollowedZones(): Single<List<TimeZoneData>> {
         return dao.getFollowed().map {
             val list: MutableList<TimeZoneData> = ArrayList()

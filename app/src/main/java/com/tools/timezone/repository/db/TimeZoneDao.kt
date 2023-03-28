@@ -23,4 +23,7 @@ interface TimeZoneDao {
 
     @Query("SELECT * FROM time_zone_table where id = :id")
     fun getZoneById(id: Int): Single<TimeZoneCacheEntity>
+
+    @Query("SELECT * FROM time_zone_table where name like '%' || :name || '%' ")
+    fun searchName(name: String): Single<List<TimeZoneCacheEntity>>
 }

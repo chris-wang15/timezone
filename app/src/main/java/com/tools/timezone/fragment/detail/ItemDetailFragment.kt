@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-import com.tools.timezone.model.CachedViewModel
 import com.tools.timezone.databinding.FragmentItemDetailBinding
-import java.util.*
+import com.tools.timezone.model.CachedViewModel
 
 class ItemDetailFragment : Fragment() {
 
