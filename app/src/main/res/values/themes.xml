@@ -12,11 +12,19 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorOnSecondary</item>
         <!-- Customize your theme here. -->
+        <item name="actionBarTheme">@style/MyActionBarTheme</item>
     </style>
 
     <style name="Theme.TimeZone.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="MyActionBarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorPrimary">@color/actionbar_bg</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
     </style>
 
     <style name="Theme.TimeZone.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
