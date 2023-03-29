@@ -26,8 +26,7 @@ class FollowedViewAdapter(
         notifyDataSetChanged()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun removeData(position: Int) {
+    fun removeData(position: Int) {
         values.removeAt(position)
         notifyItemRemoved(position)
 //        notifyDataSetChanged()
@@ -43,6 +42,7 @@ class FollowedViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
+        holder.dataId = item.id
         holder.tzView.text = item.name
 //        val offsetMs = item.zone * 60 * 60 * 1000
 //        Log.i(TAG, "${item.name} zone: $offsetMs at $position")
@@ -60,5 +60,6 @@ class FollowedViewAdapter(
         val tzView: TextView = binding.curTz
         val timeDetail: TextClock = binding.timeDetail
         val dataDetail: TextClock = binding.dataDetail
+        var dataId: Int = -1
     }
 }

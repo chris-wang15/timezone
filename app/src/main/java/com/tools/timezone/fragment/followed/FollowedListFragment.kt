@@ -5,17 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.tools.timezone.R
 import com.tools.timezone.databinding.FragmentFollowedListBinding
+import com.tools.timezone.model.CachedViewModel
 import com.tools.timezone.util.DuplicateClickListener
+import com.tools.timezone.util.SwipeToDeleteCallback
 
 class FollowedListFragment : Fragment() {
 
     private var binding: FragmentFollowedListBinding? = null
     private val followedViewModel: FollowedViewModel by viewModels()
+    private val cachedViewModel: CachedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,6 +56,8 @@ class FollowedListFragment : Fragment() {
                     jumpToListFragment(v)
                 }
             })
+
+            enableSwipeToDelete(adapter, recyclerView)
         }
     }
 
@@ -67,5 +74,19 @@ class FollowedListFragment : Fragment() {
 //            item.id
 //        )
         view.findNavController().navigate(R.id.show_item_list, bundle)
+    }
+
+    private fun enableSwipeToDelete(adapter : FollowedViewAdapter, recyclerView: RecyclerView) {
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(this.requireContext()) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val position = viewHolder.adapterPosition
+                adapter.removeData(position)
+                if (viewHolder is FollowedViewAdapter.ViewHolder) {
+                    cachedViewModel.updateFollowState(viewHolder.dataId, false)
+                }
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeToDeleteCallback)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 }
