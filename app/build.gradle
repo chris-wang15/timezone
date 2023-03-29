@@ -5,6 +5,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/Users/karazu.l./AndroidStudioProjects/KeyStore')
+            storePassword 'chrisw'
+            keyPassword 'chrisw'
+            keyAlias '123'
+        }
+    }
     namespace 'com.tools.timezone'
     compileSdk 33
 
