@@ -21,7 +21,6 @@ class ItemListFragment : Fragment() {
 
     private var binding: FragmentItemListBinding? = null
     private val cachedViewModel: CachedViewModel by activityViewModels()
-    private var retryIfCacheFailed = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,19 +41,11 @@ class ItemListFragment : Fragment() {
             cachedViewModel.list.observe(
                 viewLifecycleOwner
             ) { data ->
-                if (data.isNotEmpty()) {
-                    adapter.updateData(data)
-                } else if (retryIfCacheFailed) {
-                    Log.i(TAG, "no cached data found")
-                    retryIfCacheFailed = false
-                    cachedViewModel.resetCache()
-                }
+                adapter.updateData(data)
             }
-
-            retryIfCacheFailed = true
             cachedViewModel.getCachedLists()
 
-            var text: String? = null
+            var searchText: String? = null
             it.itemSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?, start: Int, count: Int, after: Int
@@ -65,14 +56,15 @@ class ItemListFragment : Fragment() {
                 }
 
                 override fun afterTextChanged(editable: Editable?) {
-                    text = editable?.toString()
+                    searchText = editable?.toString()
                     it.searchButton.isEnabled = editable != null && editable.isNotEmpty()
                 }
             })
 
             it.searchButton.setOnClickListener(object : DuplicateClickListener() {
                 override fun onCLick(v: View?) {
-                    cachedViewModel.searchTimeZone(text ?: "")
+                    Log.i(TAG, "on search $searchText")
+                    cachedViewModel.searchTimeZone(searchText ?: "")
                 }
             })
         }

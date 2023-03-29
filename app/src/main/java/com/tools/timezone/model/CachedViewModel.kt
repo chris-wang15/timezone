@@ -9,7 +9,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class CachedViewModel: ViewModel() {
+class CachedViewModel : ViewModel() {
 
     companion object {
         private const val TAG = "CachedViewModel"
@@ -18,24 +18,33 @@ class CachedViewModel: ViewModel() {
     private val allZones: MutableLiveData<List<TimeZoneData>> = MutableLiveData()
     val list: LiveData<List<TimeZoneData>> = allZones
     private var disposable: Disposable? = null
+    private var retryIfCacheFailed = true
 
     fun getCachedLists() {
         disposable?.dispose()
         disposable = MainRepository.getCachedTimeZoneData().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { allZones.value = it},
-                {e -> Log.e(TAG, "getLists error", e)}
+                {
+                    allZones.value = it
+                    if (it.isEmpty() && retryIfCacheFailed) {
+                        retryIfCacheFailed = false
+                        resetCache()
+                    }
+                },
+                { e ->
+                    Log.e(TAG, "getLists error", e)
+                }
             )
     }
 
-    fun resetCache() {
+    private fun resetCache() {
         disposable?.dispose()
         disposable = MainRepository.resetTimeZoneData().subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { allZones.value = it},
-                {e -> Log.e(TAG, "getLists error", e)}
+                { allZones.value = it },
+                { e -> Log.e(TAG, "getLists error", e) }
             )
     }
 
@@ -44,8 +53,8 @@ class CachedViewModel: ViewModel() {
         disposable = MainRepository.searchCachedTimeZoneData(name).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { allZones.value = it},
-                {e -> Log.e(TAG, "getLists error", e)}
+                { allZones.value = it },
+                { e -> Log.e(TAG, "getLists error", e) }
             )
     }
 
