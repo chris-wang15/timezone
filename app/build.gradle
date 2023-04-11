@@ -7,7 +7,7 @@ plugins {
 
 android {
     signingConfigs {
-        debug {
+        release {
             storeFile file('/Users/karazu.l./AndroidStudioProjects/KeyStore')
             storePassword 'chrisw'
             keyPassword 'chrisw'
@@ -59,7 +59,13 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    // Espresso
+    implementation 'androidx.test.espresso:espresso-contrib:3.5.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    // android.test
+    androidTestImplementation "androidx.test:runner:1.1.0"
+    androidTestImplementation "androidx.test:core:1.1.0"
+    androidTestImplementation "androidx.test.ext:junit-ktx:1.1.0"
 
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0'
