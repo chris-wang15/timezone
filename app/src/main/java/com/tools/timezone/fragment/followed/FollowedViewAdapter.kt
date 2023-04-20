@@ -55,6 +55,16 @@ class FollowedViewAdapter(
 
     override fun getItemCount() = values.size
 
+    override fun onViewDetachedFromWindow(holder: ViewHolder) {
+        Log.i(TAG, "Detached $holder")
+        super.onViewDetachedFromWindow(holder)
+    }
+
+    override fun onViewAttachedToWindow(holder: ViewHolder) {
+        Log.i(TAG, "attached $holder")
+        super.onViewAttachedToWindow(holder)
+    }
+
     inner class ViewHolder(binding: FollowedListContentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val tzView: TextView = binding.curTz
