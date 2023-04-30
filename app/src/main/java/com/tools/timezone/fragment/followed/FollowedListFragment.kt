@@ -54,6 +54,7 @@ class FollowedListFragment : Fragment() {
             it.fab.setOnClickListener(object : DuplicateClickListener(){
                 override fun onCLick(v: View?) {
                     jumpToListFragment(v)
+                    followedViewModel.setValue()
                 }
             })
 
