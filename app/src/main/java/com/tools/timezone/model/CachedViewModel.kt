@@ -20,15 +20,19 @@ class CachedViewModel : ViewModel() {
     val list: LiveData<List<TimeZoneData>> = innerList
     val followed: LiveData<HashSet<TimeZoneData>> = MainRepository.followedZones
 
+    fun resetZoneList() {
+        innerList.value = MainRepository.zoneList
+    }
+
     // todo combine list and typed text
     fun searchTimeZone(name: String?) {
         if (name.isNullOrEmpty()) {
             innerList.value = MainRepository.zoneList
             return
         }
-        val updated = innerList.value?.filter {
+        val updated = MainRepository.zoneList.filter {
             it.name.contains(name)
-        } ?: emptyList()
+        }
         innerList.value = updated
     }
 

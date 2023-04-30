@@ -27,7 +27,8 @@ class ZonesListAdapter(
         val item = values[position]
         holder.let {
             it.nameView.text = item.name
-            it.followSwitch.isChecked = cachedViewModel.followed.value!!.contains(item)
+            val followState = cachedViewModel.getFollowedState(item)
+            it.followSwitch.isChecked = followState
 //            cachedViewModel.followed.observe(it.itemView.context as LifecycleOwner) { set ->
 //                it.followSwitch.isChecked = set.contains(item)
 //            }

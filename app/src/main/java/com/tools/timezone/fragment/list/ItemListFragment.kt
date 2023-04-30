@@ -44,6 +44,12 @@ class ItemListFragment : Fragment() {
                 adapter.updateData(data)
             }
 
+            cachedViewModel.followed.observe(
+                viewLifecycleOwner
+            ) { set ->
+                Log.d(TAG, "followed state changed $set")
+            }
+
             var searchText: String? = null
             it.itemSearch.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -67,6 +73,8 @@ class ItemListFragment : Fragment() {
                 }
             })
         }
+
+        cachedViewModel.resetZoneList()
     }
 
     override fun onDestroyView() {
