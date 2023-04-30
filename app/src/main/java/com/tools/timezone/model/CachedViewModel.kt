@@ -4,10 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.tools.timezone.repository.MainRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.launch
 
 class CachedViewModel : ViewModel() {
 
@@ -15,56 +14,46 @@ class CachedViewModel : ViewModel() {
         private const val TAG = "CachedViewModel"
     }
 
-    private val allZones: MutableLiveData<List<TimeZoneData>> = MutableLiveData()
-    val list: LiveData<List<TimeZoneData>> = allZones
-    private var disposable: Disposable? = null
-    private var retryIfCacheFailed = true
+    private val innerList: MutableLiveData<List<TimeZoneData>> = MutableLiveData(
+        MainRepository.zoneList
+    )
+    val list: LiveData<List<TimeZoneData>> = innerList
+    val followed: LiveData<HashSet<TimeZoneData>> = MainRepository.followedZones
 
-    fun getCachedLists() {
-        disposable?.dispose()
-        disposable = MainRepository.getCachedTimeZoneData().subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    allZones.value = it
-                    if (it.isEmpty() && retryIfCacheFailed) {
-                        retryIfCacheFailed = false
-                        resetCache()
-                    }
-                },
-                { e ->
-                    Log.e(TAG, "getLists error", e)
-                }
-            )
-    }
-
-    private fun resetCache() {
-        disposable?.dispose()
-        disposable = MainRepository.resetTimeZoneData().subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { allZones.value = it },
-                { e -> Log.e(TAG, "getLists error", e) }
-            )
-    }
-
-    fun searchTimeZone(name: String) {
-        disposable?.dispose()
-        disposable = MainRepository.searchCachedTimeZoneData(name).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                { allZones.value = it },
-                { e -> Log.e(TAG, "getLists error", e) }
-            )
+    // todo combine list and typed text
+    fun searchTimeZone(name: String?) {
+        if (name.isNullOrEmpty()) {
+            innerList.value = MainRepository.zoneList
+            return
+        }
+        val updated = innerList.value?.filter {
+            it.name.contains(name)
+        } ?: emptyList()
+        innerList.value = updated
     }
 
     fun updateFollowState(id: Int, follow: Boolean) {
-        MainRepository.changeFollowedState(id, follow)
+        val zone = MainRepository.getZoneById(id)
+        val contains = followed.value!!.contains(zone)
+        if (follow && !contains) {
+            viewModelScope.launch {
+                MainRepository.addFollow(zone)
+            }
+        } else if (!follow && contains) {
+            viewModelScope.launch {
+                MainRepository.unFollow(zone)
+            }
+        } else {
+            Log.e(TAG, "follow state error: $zone $follow")
+        }
+    }
+
+    fun getFollowedState(zone: TimeZoneData): Boolean {
+        return MainRepository.getFollowedState(zone)
     }
 
     override fun onCleared() {
         super.onCleared()
-        disposable?.dispose()
-        disposable = null
+        innerList.value = MainRepository.zoneList
     }
 }

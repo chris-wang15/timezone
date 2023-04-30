@@ -24,13 +24,6 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-//        lifecycleScope.launch {
-//            Log.e("MainActivity", "launch")
-//            this@MainActivity.dataStore.data.collect {
-//                Log.e("MainActivity", "show: ${it.showCompleted}")
-//            }
-//        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -38,10 +31,4 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
-
-//    private suspend fun setValue(value: Boolean) {
-//        dataStore.updateData {
-//            it.copy(showCompleted = value)
-//        }
-//    }
 }

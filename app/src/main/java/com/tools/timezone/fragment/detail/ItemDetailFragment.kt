@@ -24,7 +24,7 @@ class ItemDetailFragment : Fragment() {
         arguments?.let {
             if (it.containsKey(ARG_ITEM_ID)) {
                 itemId = it.getInt(ARG_ITEM_ID)
-                detailViewModel.getDetailData(itemId)
+                detailViewModel.setDetailData(itemId)
             }
         }
     }

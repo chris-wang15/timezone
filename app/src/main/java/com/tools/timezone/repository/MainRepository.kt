@@ -1,80 +1,85 @@
 package com.tools.timezone.repository
 
+import android.content.Context
 import android.util.Log
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import com.tools.timezone.model.TimeZoneData
-import com.tools.timezone.repository.db.CacheMapper
-import com.tools.timezone.repository.db.RoomModule
-import com.tools.timezone.repository.db.TimeZoneCacheEntity
-import com.tools.timezone.repository.db.TimeZoneDao
+import com.tools.timezone.repository.ds.PreferencesSerializer
+import com.tools.timezone.repository.ds.UserPreferences
 import com.tools.timezone.repository.net.ORIGIN_LIST
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+
+val Context.dataStore by dataStore("app-settings.json", PreferencesSerializer)
 
 object MainRepository {
     private const val TAG = "MainRepository"
+    private lateinit var dataStore: DataStore<UserPreferences>
+    val zoneList: List<TimeZoneData> by lazy {
+        initTimeZoneData()
+    }
 
-    private val dao: TimeZoneDao = RoomModule.dao
-    private val cacheMapper: CacheMapper = CacheMapper()
+    val followedZones: LiveData<HashSet<TimeZoneData>> by lazy {
+        initFollowedZones()
+    }
 
-    fun resetTimeZoneData(): Observable<List<TimeZoneData>> {
-        return Observable.create {
-            it.onNext(ORIGIN_LIST)
-        }.map {
-            for (i in it.indices) {
-                dao.insert(TimeZoneCacheEntity(
-                    i,
-                    it[i],
-                    false
-                ))
+    fun init(context: Context) {
+        dataStore = context.dataStore
+    }
+
+    private fun initTimeZoneData(): List<TimeZoneData> {
+        val list = ArrayList<TimeZoneData>()
+        for (i in ORIGIN_LIST.indices) {
+            list.add(TimeZoneData(i, ORIGIN_LIST[i]))
+        }
+        return list
+    }
+
+    private fun initFollowedZones(): LiveData<HashSet<TimeZoneData>> {
+        return dataStore.data.asLiveData().map { settings ->
+            val set = HashSet<TimeZoneData>()
+            settings.followedList.forEach { zone ->
+                set.add(zone)
             }
+            set
         }
-            .flatMap {
-                dao.get().toObservable().map {
-                    cacheMapper.mapFromEntityList(it)
-                }
+    }
+
+    fun getFollowedState(zone: TimeZoneData): Boolean {
+        return followedZones.value?.contains(zone) == true
+    }
+
+    suspend fun unFollow(zone: TimeZoneData) {
+        try {
+            dataStore.updateData {
+                val updated = ArrayList<TimeZoneData>(it.followedList)
+                updated.remove(zone)
+                it.copy(
+                    followedList = updated
+                )
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "error when addFollow", e)
+        }
     }
 
-    fun getCachedTimeZoneData(): Single<List<TimeZoneData>> {
-        return dao.get().map {
-            val list: MutableList<TimeZoneData> = ArrayList()
-            for (data in it) {
-                list.add(cacheMapper.mapFromEntity(data))
+    suspend fun addFollow(zone: TimeZoneData) {
+        try {
+            dataStore.updateData {
+                val updated = ArrayList<TimeZoneData>(it.followedList)
+                updated.add(zone)
+                it.copy(
+                    followedList = updated
+                )
             }
-            return@map list
+        } catch (e: Exception) {
+            Log.e(TAG, "error when addFollow", e)
         }
     }
 
-    fun searchCachedTimeZoneData(zoneName: String): Single<List<TimeZoneData>> {
-        return dao.searchName(zoneName).map {
-            cacheMapper.mapFromEntityList(it)
-        }
-    }
-
-    fun getFollowedZones(): Single<List<TimeZoneData>> {
-        return dao.getFollowed().map {
-            val list: MutableList<TimeZoneData> = ArrayList()
-            for (data in it) {
-                list.add(cacheMapper.mapFromEntity(data))
-            }
-            return@map list
-        }
-    }
-
-
-    fun changeFollowedState(id: Int, followed: Boolean): Disposable {
-        val state = if(followed) 1 else 0
-        return dao.changeFollowedState(id, state).subscribeOn(Schedulers.io()).subscribe(
-            { updateResult -> Log.i(TAG, "changeFollowedState success $updateResult") },
-            { e -> Log.e(TAG, "changeFollowedState error: ", e) }
-        )
-    }
-
-    fun getZoneById(id: Int): Single<TimeZoneData> {
-        return dao.getZoneById(id).map {
-            cacheMapper.mapFromEntity(it)
-        }
+    fun getZoneById(id: Int): TimeZoneData {
+        return zoneList[id]
     }
 }

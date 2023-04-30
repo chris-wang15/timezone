@@ -1,7 +1,6 @@
 package com.tools.timezone.fragment.followed
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,21 +49,13 @@ class FollowedListFragment : Fragment() {
                 }
             }
 
-            followedViewModel.getFollowedLists()
-
             it.fab.setOnClickListener(object : DuplicateClickListener(){
                 override fun onCLick(v: View?) {
                     jumpToListFragment(v)
-                    followedViewModel.setValue()
                 }
             })
 
             enableSwipeToDelete(adapter, recyclerView)
-        }
-
-        followedViewModel.myList.observe(viewLifecycleOwner) {
-            Log.e("FollowedViewModel", "observe on: ${it.shownList} " +
-                    "map on ${Thread.currentThread()}")
         }
     }
 

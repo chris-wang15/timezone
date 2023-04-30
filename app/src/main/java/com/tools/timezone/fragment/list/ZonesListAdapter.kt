@@ -27,16 +27,19 @@ class ZonesListAdapter(
         val item = values[position]
         holder.let {
             it.nameView.text = item.name
-            it.followSwitch.isChecked = item.followed
+            it.followSwitch.isChecked = cachedViewModel.followed.value!!.contains(item)
+//            cachedViewModel.followed.observe(it.itemView.context as LifecycleOwner) { set ->
+//                it.followSwitch.isChecked = set.contains(item)
+//            }
             it.followSwitch.setOnCheckedChangeListener { switch, isChecked ->
                 if (!switch.isPressed) {
                     // prevent triggered setting isChecked when binding
                     return@setOnCheckedChangeListener
                 }
-                Log.i(TAG, "setOnCheckedChangeListener")
+                Log.i(TAG, "setOnCheckedChangeListener $isChecked")
+                it.followSwitch.isChecked = isChecked
                 cachedViewModel.updateFollowState(item.id, isChecked)
-                values[position].followed = isChecked
-                notifyItemChanged(position)
+//                notifyItemChanged(position)
             }
 //            it.itemView.setOnClickListener(
 //                object : DuplicateClickListener() {

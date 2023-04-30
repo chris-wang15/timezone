@@ -20,24 +20,9 @@ class DetailViewModel : ViewModel() {
     val liveData: LiveData<TimeZoneData> = detailData
     private var disposable: Disposable? = null
 
-    fun getDetailData(id: Int) {
-        if (disposable != null) {
-            Log.e(TAG, "last detail disposable not finished")
-            disposable?.dispose()
-        }
-        disposable = MainRepository.getZoneById(id)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    detailData.value = it
-                    disposable = null
-                },
-                { e ->
-                    Log.e(TAG, "get data error", e)
-                    disposable = null
-                }
-            )
+    fun setDetailData(id: Int) {
+        detailData.value = MainRepository.getZoneById(id)
+        Log.d(TAG, "setDetailData ${detailData.value}")
     }
 
     override fun onCleared() {

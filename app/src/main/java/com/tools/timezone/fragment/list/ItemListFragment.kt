@@ -43,7 +43,6 @@ class ItemListFragment : Fragment() {
             ) { data ->
                 adapter.updateData(data)
             }
-            cachedViewModel.getCachedLists()
 
             var searchText: String? = null
             it.itemSearch.addTextChangedListener(object : TextWatcher {
@@ -63,8 +62,8 @@ class ItemListFragment : Fragment() {
 
             it.searchButton.setOnClickListener(object : DuplicateClickListener() {
                 override fun onCLick(v: View?) {
-                    Log.i(TAG, "on search $searchText")
-                    cachedViewModel.searchTimeZone(searchText ?: "")
+                    Log.d(TAG, "on search $searchText")
+                    cachedViewModel.searchTimeZone(searchText)
                 }
             })
         }
