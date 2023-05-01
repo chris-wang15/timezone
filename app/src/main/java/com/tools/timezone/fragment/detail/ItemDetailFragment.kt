@@ -10,7 +10,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.tools.timezone.databinding.FragmentItemDetailBinding
 import com.tools.timezone.model.CachedViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ItemDetailFragment : Fragment() {
 
     private var binding: FragmentItemDetailBinding? = null

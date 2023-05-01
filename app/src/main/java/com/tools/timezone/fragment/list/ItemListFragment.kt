@@ -13,7 +13,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tools.timezone.databinding.FragmentItemListBinding
 import com.tools.timezone.model.CachedViewModel
 import com.tools.timezone.util.DuplicateClickListener
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ItemListFragment : Fragment() {
     companion object {
         private const val TAG = "ItemListFragment"

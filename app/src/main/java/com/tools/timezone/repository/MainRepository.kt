@@ -14,8 +14,7 @@ import com.tools.timezone.repository.net.ORIGIN_LIST
 
 val Context.dataStore by dataStore("app-settings.json", PreferencesSerializer)
 
-object MainRepository {
-    private const val TAG = "MainRepository"
+class MainRepository {
     private lateinit var dataStore: DataStore<UserPreferences>
     val zoneList: List<TimeZoneData> by lazy {
         initTimeZoneData()
@@ -81,5 +80,9 @@ object MainRepository {
 
     fun getZoneById(id: Int): TimeZoneData {
         return zoneList[id]
+    }
+
+    companion object {
+        private const val TAG = "MainRepository"
     }
 }

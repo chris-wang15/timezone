@@ -6,46 +6,50 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tools.timezone.repository.MainRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CachedViewModel : ViewModel() {
+@HiltViewModel
+class CachedViewModel
+@Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
 
     companion object {
         private const val TAG = "CachedViewModel"
     }
 
     private val innerList: MutableLiveData<List<TimeZoneData>> = MutableLiveData(
-        MainRepository.zoneList
+        mainRepository.zoneList
     )
     val list: LiveData<List<TimeZoneData>> = innerList
-    val followed: LiveData<HashSet<TimeZoneData>> = MainRepository.followedZones
+    val followed: LiveData<HashSet<TimeZoneData>> = mainRepository.followedZones
 
     fun resetZoneList() {
-        innerList.value = MainRepository.zoneList
+        innerList.value = mainRepository.zoneList
     }
 
     // todo combine list and typed text
     fun searchTimeZone(name: String?) {
         if (name.isNullOrEmpty()) {
-            innerList.value = MainRepository.zoneList
+            innerList.value = mainRepository.zoneList
             return
         }
-        val updated = MainRepository.zoneList.filter {
+        val updated = mainRepository.zoneList.filter {
             it.name.contains(name)
         }
         innerList.value = updated
     }
 
     fun updateFollowState(id: Int, follow: Boolean) {
-        val zone = MainRepository.getZoneById(id)
+        val zone = mainRepository.getZoneById(id)
         val contains = followed.value!!.contains(zone)
         if (follow && !contains) {
             viewModelScope.launch {
-                MainRepository.addFollow(zone)
+                mainRepository.addFollow(zone)
             }
         } else if (!follow && contains) {
             viewModelScope.launch {
-                MainRepository.unFollow(zone)
+                mainRepository.unFollow(zone)
             }
         } else {
             Log.e(TAG, "follow state error: $zone $follow")
@@ -53,11 +57,11 @@ class CachedViewModel : ViewModel() {
     }
 
     fun getFollowedState(zone: TimeZoneData): Boolean {
-        return MainRepository.getFollowedState(zone)
+        return mainRepository.getFollowedState(zone)
     }
 
     override fun onCleared() {
         super.onCleared()
-        innerList.value = MainRepository.zoneList
+        innerList.value = mainRepository.zoneList
     }
 }

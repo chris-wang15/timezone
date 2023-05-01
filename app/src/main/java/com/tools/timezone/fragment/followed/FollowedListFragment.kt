@@ -15,7 +15,9 @@ import com.tools.timezone.databinding.FragmentFollowedListBinding
 import com.tools.timezone.model.CachedViewModel
 import com.tools.timezone.util.DuplicateClickListener
 import com.tools.timezone.util.SwipeToDeleteCallback
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class FollowedListFragment : Fragment() {
 
     private var binding: FragmentFollowedListBinding? = null
