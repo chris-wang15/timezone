@@ -9,14 +9,15 @@
 
     <TextView
         android:id="@+id/cur_tz"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem"
         android:textStyle="bold"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/des"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="GMT+9" />
+        tools:text="America/Argentina/ComodRivadavia" />
 
     <TextView
         android:id="@+id/des"
@@ -26,7 +27,8 @@
         android:text="@string/current_time"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintBottom_toBottomOf="@+id/cur_tz"
-        app:layout_constraintLeft_toRightOf="@+id/cur_tz"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cur_tz"
         app:layout_constraintTop_toTopOf="@+id/cur_tz" />
 
     <TextClock
