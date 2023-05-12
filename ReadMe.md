@@ -8,3 +8,5 @@
 - Input zone name and search
 - Click the "Follow" switch button
 - Click return button and back to "Followed Zones" page
+
+![pics](https://github.com/chris-wang15/timezone/assets/128122102/199217ec-85ef-47c0-85b6-22c928105a16)
