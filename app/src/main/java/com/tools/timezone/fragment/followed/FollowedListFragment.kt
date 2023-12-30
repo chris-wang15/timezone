@@ -77,7 +77,7 @@ class FollowedListFragment : Fragment() {
     }
 
     private fun enableSwipeToDelete(adapter : FollowedViewAdapter, recyclerView: RecyclerView) {
-        val swipeToDeleteCallback = object : SwipeToDeleteCallback(this.requireContext()) {
+        val swipeToDeleteCallback = object : SwipeToDeleteCallback(requireContext()) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
                 adapter.removeData(position)
