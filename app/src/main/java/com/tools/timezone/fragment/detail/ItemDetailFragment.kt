@@ -41,7 +41,7 @@ class ItemDetailFragment : Fragment() {
 
         Log.i(TAG, "onCreate ${cachedViewModel.list.value?.get(itemId)}")
         bindData()
-        detailViewModel.liveData.observe(
+        detailViewModel.detailData.observe(
             viewLifecycleOwner
         ) {
             Log.i(TAG, "detailViewModel.liveData.observe $it")
@@ -52,7 +52,7 @@ class ItemDetailFragment : Fragment() {
     }
 
     private fun bindData() {
-        val item = detailViewModel.liveData.value
+        val item = detailViewModel.detailData.value
         item ?: return
         binding?.apply {
             tzName.text = item.name

@@ -17,18 +17,11 @@ constructor(private val lazyRepository: dagger.Lazy<MainRepository>) : ViewModel
         private const val TAG = "DetailViewModel"
     }
 
-    private val detailData: MutableLiveData<TimeZoneData> = MutableLiveData()
-    val liveData: LiveData<TimeZoneData> = detailData
-    private var disposable: Disposable? = null
+    private val _detailData: MutableLiveData<TimeZoneData> = MutableLiveData()
+    val detailData: LiveData<TimeZoneData> = _detailData
 
     fun setDetailData(id: Int) {
-        detailData.value = lazyRepository.get().getZoneById(id)
-        Log.d(TAG, "setDetailData ${detailData.value}")
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposable?.dispose()
-        disposable = null
+        _detailData.value = lazyRepository.get().getZoneById(id)
+        Log.d(TAG, "setDetailData ${_detailData.value}")
     }
 }
