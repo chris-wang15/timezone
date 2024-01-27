@@ -16,12 +16,13 @@ import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.robolectric.RobolectricTestRunner
 
- @RunWith(RobolectricTestRunner::class)
+@RunWith(RobolectricTestRunner::class)
 internal class DetailViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
     private lateinit var detailViewModel: DetailViewModel
+
     private val mockTimeZoneData = TimeZoneData(2, "Africa/Abidjan")
 
     @Mock
