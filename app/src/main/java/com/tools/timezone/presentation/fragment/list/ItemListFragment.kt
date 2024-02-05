@@ -1,4 +1,4 @@
-package com.tools.timezone.fragment.list
+package com.tools.timezone.presentation.fragment.list
 
 import android.os.Bundle
 import android.text.Editable
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.tools.timezone.databinding.FragmentItemListBinding
-import com.tools.timezone.model.CachedViewModel
+import com.tools.timezone.presentation.viewmodel.CachedViewModel
 import com.tools.timezone.util.DuplicateClickListener
 import dagger.hilt.android.AndroidEntryPoint
 

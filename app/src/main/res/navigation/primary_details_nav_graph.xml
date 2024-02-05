@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/followed_item_list"
-        android:name="com.tools.timezone.fragment.followed.FollowedListFragment"
+        android:name="com.tools.timezone.presentation.fragment.followed.FollowedListFragment"
         android:label="Followed Zones">
         <action
             android:id="@+id/show_item_list"
@@ -15,7 +15,7 @@
     </fragment>
     <fragment
         android:id="@+id/item_list_fragment"
-        android:name="com.tools.timezone.fragment.list.ItemListFragment"
+        android:name="com.tools.timezone.presentation.fragment.list.ItemListFragment"
         android:label="Time Zone List">
         <action
             android:id="@+id/show_item_detail"
@@ -23,7 +23,7 @@
     </fragment>
     <fragment
         android:id="@+id/item_detail_fragment"
-        android:name="com.tools.timezone.fragment.detail.ItemDetailFragment"
+        android:name="com.tools.timezone.presentation.fragment.detail.ItemDetailFragment"
         android:label="Detail Info"
         tools:layout="@layout/fragment_item_detail">
         <argument

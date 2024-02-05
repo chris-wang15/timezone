@@ -2,8 +2,9 @@ package com.tools.timezone.fragment.detail
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.tools.timezone.model.TimeZoneData
-import com.tools.timezone.repository.MainRepository
+import com.tools.timezone.domain.model.TimeZoneData
+import com.tools.timezone.presentation.fragment.detail.DetailViewModel
+import com.tools.timezone.domain.repository.MainRepository
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.After

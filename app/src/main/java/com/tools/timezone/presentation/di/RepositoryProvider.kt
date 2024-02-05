@@ -1,7 +1,8 @@
-package com.tools.timezone.di
+package com.tools.timezone.presentation.di
 
 import android.content.Context
-import com.tools.timezone.repository.MainRepository
+import com.tools.timezone.data.repository.MainRepositoryImpl
+import com.tools.timezone.domain.repository.MainRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,6 +19,6 @@ object RepositoryProvider {
     fun provideMainRepository(
         @ApplicationContext appContext: Context
     ): MainRepository {
-        return MainRepository().apply { init(context = appContext) }
+        return MainRepositoryImpl(context = appContext)
     }
 }

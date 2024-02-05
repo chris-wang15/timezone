@@ -38,6 +38,6 @@
         app:layoutManager="LinearLayoutManager"
         app:layout_constraintTop_toBottomOf="@+id/search_button"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:context="com.tools.timezone.MainActivity"
+        tools:context="com.tools.timezone.presentation.activity.MainActivity"
         tools:listitem="@layout/item_list_content" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.tools.timezone.repository.net
+package com.tools.timezone.domain.repository.net
 
 val ORIGIN_LIST: List<String> = arrayListOf(
     "Africa/Abidjan",

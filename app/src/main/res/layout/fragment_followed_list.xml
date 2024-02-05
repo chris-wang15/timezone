@@ -15,7 +15,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         app:layoutManager="LinearLayoutManager"
-        tools:context="com.tools.timezone.MainActivity"
+        tools:context="com.tools.timezone.presentation.activity.MainActivity"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="0dp"
         tools:listitem="@layout/followed_list_content"

@@ -1,4 +1,4 @@
-package com.tools.timezone.repository.ds
+package com.tools.timezone.data.ds
 
 import androidx.datastore.core.Serializer
 import kotlinx.serialization.SerializationException

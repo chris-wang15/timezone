@@ -1,12 +1,11 @@
-package com.tools.timezone.fragment.detail
+package com.tools.timezone.presentation.fragment.detail
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tools.timezone.model.TimeZoneData
-import com.tools.timezone.repository.MainRepository
-import io.reactivex.disposables.Disposable
+import com.tools.timezone.domain.model.TimeZoneData
+import com.tools.timezone.domain.repository.MainRepository
 import javax.inject.Inject
 
 class DetailViewModel

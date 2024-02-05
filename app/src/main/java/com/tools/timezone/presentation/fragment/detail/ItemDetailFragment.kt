@@ -1,4 +1,4 @@
-package com.tools.timezone.fragment.detail
+package com.tools.timezone.presentation.fragment.detail
 
 import android.os.Bundle
 import android.util.Log
@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.tools.timezone.databinding.FragmentItemDetailBinding
-import com.tools.timezone.model.CachedViewModel
+import com.tools.timezone.presentation.viewmodel.CachedViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,10 +56,6 @@ class ItemDetailFragment : Fragment() {
         item ?: return
         binding?.apply {
             tzName.text = item.name
-//            val offsetMs = item.zone * 60 * 60 * 1000
-//            timeDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
-//            dataDetail.timeZone = SimpleTimeZone(offsetMs, item.name).displayName
-//            itemDetail.text = item.cities.toString()
             timeDetail.timeZone = item.name
             dataDetail.timeZone = item.name
         }

@@ -1,4 +1,4 @@
-package com.tools.timezone.fragment.followed
+package com.tools.timezone.presentation.fragment.followed
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.tools.timezone.R
 import com.tools.timezone.databinding.FragmentFollowedListBinding
-import com.tools.timezone.model.CachedViewModel
+import com.tools.timezone.presentation.viewmodel.CachedViewModel
 import com.tools.timezone.util.DuplicateClickListener
 import com.tools.timezone.util.SwipeToDeleteCallback
 import dagger.hilt.android.AndroidEntryPoint

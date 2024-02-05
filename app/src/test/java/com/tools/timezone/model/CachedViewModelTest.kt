@@ -3,7 +3,9 @@ package com.tools.timezone.model
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.tools.timezone.repository.MainRepository
+import com.tools.timezone.domain.model.TimeZoneData
+import com.tools.timezone.presentation.viewmodel.CachedViewModel
+import com.tools.timezone.domain.repository.MainRepository
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

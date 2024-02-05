@@ -1,11 +1,12 @@
-package com.tools.timezone.model
+package com.tools.timezone.presentation.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tools.timezone.repository.MainRepository
+import com.tools.timezone.domain.model.TimeZoneData
+import com.tools.timezone.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

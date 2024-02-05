@@ -1,4 +1,4 @@
-package com.tools.timezone.fragment.list
+package com.tools.timezone.presentation.fragment.list
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tools.timezone.databinding.ItemListContentBinding
-import com.tools.timezone.model.CachedViewModel
-import com.tools.timezone.model.TimeZoneData
+import com.tools.timezone.presentation.viewmodel.CachedViewModel
+import com.tools.timezone.domain.model.TimeZoneData
 
 class ZonesListAdapter(
     private val values: ArrayList<TimeZoneData>,

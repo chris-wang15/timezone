@@ -1,10 +1,10 @@
-package com.tools.timezone.fragment.followed
+package com.tools.timezone.presentation.fragment.followed
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
-import com.tools.timezone.model.TimeZoneData
-import com.tools.timezone.repository.MainRepository
+import com.tools.timezone.domain.model.TimeZoneData
+import com.tools.timezone.domain.repository.MainRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

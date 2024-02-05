@@ -1,4 +1,4 @@
-package com.tools.timezone.fragment.followed
+package com.tools.timezone.presentation.fragment.followed
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -8,7 +8,7 @@ import android.widget.TextClock
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tools.timezone.databinding.FollowedListContentBinding
-import com.tools.timezone.model.TimeZoneData
+import com.tools.timezone.domain.model.TimeZoneData
 import java.util.*
 
 class FollowedViewAdapter(

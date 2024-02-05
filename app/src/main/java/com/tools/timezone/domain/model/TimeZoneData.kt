@@ -1,4 +1,4 @@
-package com.tools.timezone.model
+package com.tools.timezone.domain.model
 
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
