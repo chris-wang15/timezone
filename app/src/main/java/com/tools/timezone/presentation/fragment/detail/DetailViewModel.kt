@@ -6,11 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.tools.timezone.domain.model.TimeZoneData
 import com.tools.timezone.domain.repository.MainRepository
+import com.tools.timezone.domain.usecase.ZoneCase
 import javax.inject.Inject
 
 class DetailViewModel
 @Inject
-constructor(private val lazyRepository: dagger.Lazy<MainRepository>) : ViewModel() {
+constructor(private val zoneCase: ZoneCase) : ViewModel() {
 
     companion object {
         private const val TAG = "DetailViewModel"
@@ -20,7 +21,8 @@ constructor(private val lazyRepository: dagger.Lazy<MainRepository>) : ViewModel
     val detailData: LiveData<TimeZoneData> = _detailData
 
     fun setDetailData(id: Int) {
-        _detailData.value = lazyRepository.get().getZoneById(id)
-        Log.d(TAG, "setDetailData ${_detailData.value}")
+        val zone = zoneCase.getZoneById(id) ?: return
+        _detailData.postValue(zone)
+        Log.d(TAG, "setDetailData $zone")
     }
 }

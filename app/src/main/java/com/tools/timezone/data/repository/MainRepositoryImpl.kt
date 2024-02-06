@@ -18,15 +18,7 @@ private val Context.dataStore by dataStore("app-settings.json", PreferencesSeria
 class MainRepositoryImpl(context: Context) : MainRepository {
     private val dataStore: DataStore<UserPreferences> = context.dataStore
 
-    override val zoneList: List<TimeZoneData> by lazy {
-        initTimeZoneData()
-    }
-
-    override val followedZones: LiveData<HashSet<TimeZoneData>> by lazy {
-        initFollowedZones()
-    }
-
-    private fun initTimeZoneData(): List<TimeZoneData> {
+    override fun loadTimeZoneData(): List<TimeZoneData> {
         val list = ArrayList<TimeZoneData>()
         for (i in ORIGIN_LIST.indices) {
             list.add(TimeZoneData(i, ORIGIN_LIST[i]))
@@ -34,7 +26,7 @@ class MainRepositoryImpl(context: Context) : MainRepository {
         return list
     }
 
-    private fun initFollowedZones(): LiveData<HashSet<TimeZoneData>> {
+    override fun loadFollowedZones(): LiveData<HashSet<TimeZoneData>> {
         return dataStore.data.asLiveData().map { settings ->
             val set = HashSet<TimeZoneData>()
             settings.followedList.forEach { zone ->
@@ -42,10 +34,6 @@ class MainRepositoryImpl(context: Context) : MainRepository {
             }
             set
         }
-    }
-
-    override fun getFollowedState(zone: TimeZoneData): Boolean {
-        return followedZones.value?.contains(zone) == true
     }
 
     override suspend fun unFollow(zone: TimeZoneData) {
@@ -74,10 +62,6 @@ class MainRepositoryImpl(context: Context) : MainRepository {
         } catch (e: Exception) {
             Log.e(TAG, "error when addFollow", e)
         }
-    }
-
-    override fun getZoneById(id: Int): TimeZoneData {
-        return zoneList[id]
     }
 
     companion object {

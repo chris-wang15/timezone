@@ -5,16 +5,11 @@ import com.tools.timezone.domain.model.TimeZoneData
 
 interface MainRepository {
 
-    val zoneList: List<TimeZoneData>
+    fun loadTimeZoneData(): List<TimeZoneData>
 
-    val followedZones: LiveData<HashSet<TimeZoneData>>
-
-    fun getFollowedState(zone: TimeZoneData): Boolean
+    fun loadFollowedZones(): LiveData<HashSet<TimeZoneData>>
 
     suspend fun unFollow(zone: TimeZoneData)
 
     suspend fun addFollow(zone: TimeZoneData)
-
-    fun getZoneById(id: Int): TimeZoneData
-
 }

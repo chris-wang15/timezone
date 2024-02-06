@@ -27,7 +27,7 @@ class ZonesListAdapter(
         val item = values[position]
         holder.let {
             it.nameView.text = item.name
-            val followState = cachedViewModel.getFollowedState(item)
+            val followState = cachedViewModel.isFollowed(item)
             it.followSwitch.isChecked = followState
             it.followSwitch.setOnCheckedChangeListener { switch, isChecked ->
                 if (!switch.isPressed) {

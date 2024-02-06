@@ -1,68 +1,67 @@
 package com.tools.timezone.presentation.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.tools.timezone.domain.model.TimeZoneData
-import com.tools.timezone.domain.repository.MainRepository
+import com.tools.timezone.domain.usecase.FollowStateCase
+import com.tools.timezone.domain.usecase.ZoneCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CachedViewModel
-@Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
+@Inject constructor(
+    private val zoneCase: ZoneCase,
+    private val followStateCase: FollowStateCase,
+) : ViewModel() {
 
     companion object {
         private const val TAG = "CachedViewModel"
     }
 
     private val innerList: MutableLiveData<List<TimeZoneData>> = MutableLiveData(
-        mainRepository.zoneList
+        zoneCase.allZoneData
     )
     val list: LiveData<List<TimeZoneData>> = innerList
-    val followed: LiveData<HashSet<TimeZoneData>> = mainRepository.followedZones
+    val followed: LiveData<HashSet<TimeZoneData>> = followStateCase.followedZone
 
     fun resetZoneList() {
-        innerList.value = mainRepository.zoneList
+        innerList.value = zoneCase.allZoneData
     }
 
-    // todo combine list and typed text
     fun searchTimeZone(name: String?) {
         if (name.isNullOrEmpty()) {
-            innerList.value = mainRepository.zoneList
+            innerList.value = zoneCase.allZoneData
             return
         }
-        val updated = mainRepository.zoneList.filter {
+        val updated = zoneCase.allZoneData.filter {
             it.name.contains(name)
         }
         innerList.value = updated
     }
 
     fun updateFollowState(id: Int, follow: Boolean) {
-        val zone = mainRepository.getZoneById(id)
-        val contains = followed.value!!.contains(zone)
-        if (follow && !contains) {
-            viewModelScope.launch {
-                mainRepository.addFollow(zone)
+        val zone = zoneCase.getZoneById(id)
+        if (zone == null) {
+            Log.e(TAG, "Can not find zone with id $id")
+            return
+        }
+        viewModelScope.launch {
+            if (follow) {
+                followStateCase.addFollow(zone)
+            } else {
+                followStateCase.unFollow(zone)
             }
-        } else if (!follow && contains) {
-            viewModelScope.launch {
-                mainRepository.unFollow(zone)
-            }
-        } else {
-            Log.e(TAG, "follow state error: $zone $follow")
         }
     }
 
-    fun getFollowedState(zone: TimeZoneData): Boolean {
-        return mainRepository.getFollowedState(zone)
+    fun isFollowed(zone: TimeZoneData): Boolean {
+        return followStateCase.isFollowed(zone)
     }
 
     override fun onCleared() {
         super.onCleared()
-        innerList.value = mainRepository.zoneList
+        innerList.value = zoneCase.allZoneData
     }
 }

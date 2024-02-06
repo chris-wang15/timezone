@@ -5,17 +5,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import com.tools.timezone.domain.model.TimeZoneData
 import com.tools.timezone.domain.repository.MainRepository
+import com.tools.timezone.domain.usecase.FollowStateCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class FollowedViewModel
-@Inject constructor(private val mainRepository: MainRepository) : ViewModel() {
-//    companion object {
-//        private const val TAG = "FollowedViewModel"
-//    }
+@Inject constructor(followStateCase: FollowStateCase) : ViewModel() {
 
-    val list: LiveData<List<TimeZoneData>> = mainRepository.followedZones.map { set ->
+    val list: LiveData<List<TimeZoneData>> = followStateCase.followedZone.map { set ->
         set.toList().sortedWith(compareBy { it.id })
     }
 }
