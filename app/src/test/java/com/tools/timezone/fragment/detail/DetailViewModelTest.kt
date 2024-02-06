@@ -3,8 +3,8 @@ package com.tools.timezone.fragment.detail
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.tools.timezone.domain.model.TimeZoneData
+import com.tools.timezone.domain.usecase.ZoneCase
 import com.tools.timezone.presentation.fragment.detail.DetailViewModel
-import com.tools.timezone.domain.repository.MainRepository
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.After
@@ -31,14 +31,13 @@ internal class DetailViewModelTest {
 
     @Before
     fun setUp() {
-        val repository = mockk<MainRepository> {
+        val zoneCase = mockk<ZoneCase> {
             every { getZoneById(any()) }.answers {
                 println("getZoneById called")
                 mockTimeZoneData
             }
         }
-        detailViewModel = DetailViewModel { repository }
-//         dataObserver = mockk()
+        detailViewModel = DetailViewModel(zoneCase)
         dataObserver = mock(Observer::class.java) as Observer<TimeZoneData>
     }
 

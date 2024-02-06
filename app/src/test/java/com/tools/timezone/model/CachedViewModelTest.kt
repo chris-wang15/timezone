@@ -4,8 +4,9 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.tools.timezone.domain.model.TimeZoneData
+import com.tools.timezone.domain.usecase.FollowStateCase
+import com.tools.timezone.domain.usecase.ZoneCase
 import com.tools.timezone.presentation.viewmodel.CachedViewModel
-import com.tools.timezone.domain.repository.MainRepository
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
@@ -42,13 +43,15 @@ internal class CachedViewModelTest {
 
     @Before
     fun setUp() {
-        val repository = mockk<MainRepository> {
-            every { zoneList }.answers { mockZoneList }
-            every { followedZones }.answers { mockFollowedZones }
+        val zoneCase = mockk<ZoneCase> {
+            every { allZoneData }.answers { mockZoneList }
             every { getZoneById(any()) }.answers {
                 val id = firstArg<Int>()
-                zoneList[id]
+                mockZoneList[id]
             }
+        }
+        val followStateCase = mockk<FollowStateCase> {
+            every { followedZone }.answers { mockFollowedZones }
             coEvery { addFollow(any()) }.coAnswers {
                 val followed = mockFollowedZones.value ?: HashSet()
                 followed.add(firstArg())
@@ -59,11 +62,11 @@ internal class CachedViewModelTest {
                 followed.remove(firstArg())
                 mockFollowedZones.postValue(followed)
             }
-            every { getFollowedState(any()) }.answers {
+            every { isFollowed(any()) }.answers {
                 mockFollowedZones.value?.contains(firstArg()) == true
             }
         }
-        cachedViewModel = CachedViewModel(repository)
+        cachedViewModel = CachedViewModel(zoneCase, followStateCase)
         dataObserver = Mockito.mock(Observer::class.java) as Observer<List<TimeZoneData>>
         followedObserver = Mockito.mock(Observer::class.java) as Observer<HashSet<TimeZoneData>>
     }

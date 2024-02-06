@@ -4,8 +4,8 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.tools.timezone.domain.model.TimeZoneData
+import com.tools.timezone.domain.usecase.FollowStateCase
 import com.tools.timezone.presentation.fragment.followed.FollowedViewModel
-import com.tools.timezone.domain.repository.MainRepository
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.After
@@ -33,10 +33,10 @@ internal class FollowedViewModelTest {
 
     @Before
     fun setUp() {
-        val repository = mockk<MainRepository> {
-            every { followedZones }.answers { mockFollowedZones }
+        val followStateCase = mockk<FollowStateCase> {
+            every { followedZone }.answers { mockFollowedZones }
         }
-        followedViewModel = FollowedViewModel(repository)
+        followedViewModel = FollowedViewModel(followStateCase)
         dataObserver = Mockito.mock(Observer::class.java) as Observer<List<TimeZoneData>>
     }
 
